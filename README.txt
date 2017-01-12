@@ -14,4 +14,6 @@ Deploy this script on every CAS serving internet
 5 Enable Windows firewall - To block attacker's IP addresses
 6 Set "Starter.cmd" invoked by task scheduler every 1 minute
 
+'Python version' is a python wrote script for the same purpose, running faster but logging is not completed yet, this folder can be removed safely.
+
 - Larry.Song@outlook.com
