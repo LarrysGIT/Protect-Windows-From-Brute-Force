@@ -18,12 +18,12 @@ t_4625_fw = [30, 1]
 #t_4625_fw_Intranet = [50, 1]
 t_4625_fw_TimeoutDefault = 365 * 24 * 3600
 
-def AddLog(Path, Type, Value):
+def AddLog(Path, Value, Type = 'INFO'):
 	Type = Type.upper()
 	log = codecs.open(Path, encoding='utf-8', mode='a')
 	t = time.strftime('%Y-%m-%d %H:%M:%S')
-	log.write("[" + t + "][" + Type + "] " + Value + "\n")
-	print("[" + t + "][" + Type + "] " + Value)
+	log.write('[%s][%s] %s\r\n' % (t, Type, Value))
+	print('[%s][%s] %s' % (t, Type, Value))
 	log.close()
 	log = None
 

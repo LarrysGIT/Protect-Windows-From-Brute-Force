@@ -1,3 +1,2 @@
-# Every IP address should be stored each line
-# Each IP address should be a valid and completed IPv4 format address instead of regular expression
+# One IP each line
 #192.168.100.99
