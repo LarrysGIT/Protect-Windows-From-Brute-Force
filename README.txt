@@ -1,7 +1,7 @@
 # Against-AD-Brute-Attack
 
 Read first,
-For summary, this script analysis event logs in passed X minutes and find out all events with id 4625, retrieve IP address and if there are IPs amounted exceed threshold, script block it using windows firewall. Basically, this script is not limited on Exchange CAS, it can be deployed on any server as long as 4625 auth failure generated.
+For summary, this script analyze event logs in passed X minutes and find out all events with id 4625, retrieve IP address and if there are IPs amounted exceed threshold, script block it using windows firewall. Basically, this script is not limited on Exchange CAS, it can be deployed on any server as long as 4625 auth failure generated.
 
 You can adjust thresholds in the script, please note too strict thresholds could cause unexpected block impact normal users.
 If you want remove IP from block, you can remove its rule from windows firewall, or, add the ip address to FW_WhiteList.txt as |supper format. See FW_WhiteList.txt for more.
