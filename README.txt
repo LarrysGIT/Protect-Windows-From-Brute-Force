@@ -1,8 +1,10 @@
-# Against-Exchange-OWA-Hacking
+# Against-AD-Brute-Attack
 
 Read first,
-You can adjust thresholds in the script, too strict values could cause wrong blocking impact normal use.
-If you want remove some IP from block, you can remove the rule from windows firewall, or, add the ip address to FW_WhiteList.txt as |supper format temporaily, see FW_WhiteList.txt for more.
+For summary, this script analysis event logs in passed X minutes and find out all events with id 4625, retrieve IP address and if there are IPs amounted exceed threshold, script block it using windows firewall. Basically, this script is not limited on Exchange CAS, it can be deployed on any server as long as 4625 auth failure generated.
+
+You can adjust thresholds in the script, please note too strict thresholds could cause unexpected block impact normal users.
+If you want remove IP from block, you can remove its rule from windows firewall, or, add the ip address to FW_WhiteList.txt as |supper format. See FW_WhiteList.txt for more.
 Deploy this script on every CAS serving internet
 
 # How to use
