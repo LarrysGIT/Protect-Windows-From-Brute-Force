@@ -2,17 +2,6 @@
 # Change along with task scheduler trigger
 $MinutesToBack = 1
 
-# threshold for ip not matching whitelist,
-# 30 means total number of auth failure in past {MinutesToBack} minutes,
-# 1 means number of different accounts auth failed,
-$t_4625_fw = @(30, 1)
-# threshold for ip matched in FW_WhiteList.txt
-$t_4625_fw_Intranet = @(50, 1)
-# default block time, in seconds, which is 2 years
-$t_4625_fw_TimeoutDefault = 525600
-
-############################
-
 $Date = Get-Date
 $strDate = $Date.ToString('yyyy-MM-dd')
 
@@ -22,15 +11,20 @@ $LogFolder = '.\Logs'
 $strLogFile = "$LogFolder\${strDate}.txt"
 $strLogFile_e = "$LogFolder\${strDate}_e.txt"
 
-if(!(Test-Path -Path $LogFolder))
-{
-    New-Item -Path $LogFolder -ItemType Directory -ErrorAction:SilentlyContinue | Out-Null
-}
-
 Set-Content -Path $strLogFile_e -Value $null
 
 $WhiteList = @(Get-Content -Path 'FW_WhiteList.txt' -Encoding UTF8 -ErrorAction:SilentlyContinue | ?{$_ -and $_ -imatch '^[^#]'})
 $BlackList = @(Get-Content -Path 'FW_BlackList.txt' -Encoding UTF8 -ErrorAction:SilentlyContinue | ?{$_ -and $_ -imatch '^[^#]'})
+
+# threshold for ip not matching whitelist,
+# 30 means total number of auth failure in past {MinutesToBack} minutes,
+# 1 means number of different accounts auth failed,
+# IPs matched both rules are identified as attacking
+$t_4625_fw = @(30, 1)
+# threshold for whitelist ip
+$t_4625_fw_Intranet = @(50, 1)
+# default block time, in seconds, which is 2 years
+$t_4625_fw_TimeoutDefault = 525600
 
 $Mail_From = "$($env:COMPUTERNAME)<ITInfraAlerts@larry.song>"
 $Mail_To = 'someoneA@larry.song', 'someoneB@larry.song'
@@ -157,7 +151,7 @@ function Add-Log
             if(!(Get-NetFirewallRule -DisplayName "ScriptAuto_Block_$IP" -ErrorAction:SilentlyContinue))
             {
                 $Mail = $true
-                New-NetFirewallRule -DisplayName "ScriptAuto_Block_$IP" -Profile Any -Action Block -RemoteAddress $IP -Protocol Tcp -LocalPort Any -Direction Inbound -Description $Date.AddMinutes($GoBlock.$IP).ToString('yyyy-MM-dd HH:mm:ss') -ErrorAction:SilentlyContinue
+                New-NetFirewallRule -DisplayName "ScriptAuto_Block_$IP" -Profile Any -Action Block -RemoteAddress $IP -Protocol Tcp -LocalPort 443 -Direction Inbound -Description $Date.AddMinutes($GoBlock.$IP).ToString('yyyy-MM-dd HH:mm:ss') -ErrorAction:SilentlyContinue
                 if(!$?)
                 {
                     Add-Log -Path $strLogFile_e -Value "[$IP] failed to add to firewall, cause:" -Type Error
