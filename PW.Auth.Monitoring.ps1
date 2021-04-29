@@ -1,14 +1,18 @@
 
-# Change along with task scheduler trigger
+# Change the value to match with task scheduler trigger
+# e.g. task scheduler start the script every 10 minutes, the variable should set 10 too.
 $MinutesToBack = 1
 
-# threshold for ip not matching whitelist,
-# 30 means total number of auth failure in past {MinutesToBack} minutes,
-# 1 means number of different accounts auth failed,
+# Default threshold,
+# 30 means the total number of auth failures in past $MinutesToBack minutes,
+# 1 means the number of accounts fails in past $MinutesToBack minutes
 $t_4625_fw = @(30, 1)
-# threshold for ip matched in FW_WhiteList.txt
+
+# threshold for ip in FW_WhiteList.txt
+# if an ip address matched from FW_WhiteList.txt, following variable is used
 $t_4625_fw_Intranet = @(50, 1)
-# default block time, in seconds, which is 2 years
+
+# default block time, in seconds
 $t_4625_fw_TimeoutDefault = 525600
 
 ############################
